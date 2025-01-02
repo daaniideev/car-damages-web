@@ -14,3 +14,10 @@
   color: #0056b3; /* Cambia a un tono más oscuro cuando se pasa el cursor */
   text-decoration: none; /* Elimina la subrayado en el hover */
 }
+
+.multiple-selector {
+  width: 30%;
+}
+
+.selector-multiple {
+}

@@ -1,9 +1,22 @@
 import React, { useEffect, useState } from "react";
-import ImageCarousel from "./ImageCarousel";
 import "../styles/otherStyles.css";
 import { direccionIp } from "../constants";
+import { MultiSelect } from "primereact/multiselect";
+import "primereact/resources/primereact.min.css"; // Estilos de los componentes de PrimeReact
+import "primeicons/primeicons.css"; // Estilos de los iconos de PrimeIcons (si los necesitas)
+import "primereact/resources/themes/lara-light-indigo/theme.css"; // Un tema para los componentes (puedes elegir otro tema)
+
+const damagesList = [
+  { name: "Cristal roto", code: "glass-shatter" },
+  { name: "Bolladura", code: "dent" },
+  { name: "Rallajo", code: "scratch" },
+  { name: "Rueda pinchada", code: "tire-flat" },
+  { name: "Faro roto", code: "broken-lamp" },
+  { name: "Sin daños", code: "no-damage" },
+];
 function ModalReport({ show, handleClose, damages }) {
   const [imageUrl, setImageUrl] = useState(null);
+  const [selectedDamage, setSelectedDamage] = useState(null);
 
   useEffect(() => {
     if (show) {
@@ -18,6 +31,12 @@ function ModalReport({ show, handleClose, damages }) {
     }
   }, [show]);
 
+  useEffect(() => {
+    if (selectedDamage && selectedDamage.length > 0) {
+      let selectedDamageArr = selectedDamage.map((item) => item.code);
+      console.log(selectedDamageArr);
+    }
+  }, [selectedDamage]);
   useEffect(() => {
     console.log("damages.message[selectedIndex]");
     console.log(damages.message);
@@ -42,6 +61,35 @@ function ModalReport({ show, handleClose, damages }) {
         <h2 style={styles.h2Style}>Reportar error</h2>
         <div style={styles.divImgStyle}>
           {<img style={styles.imgStyle} src={imageUrl} alt="Damage" />}
+        </div>
+        <div style={styles.selectorDeDaños}>
+          <p>Selecciona los daños:</p>
+          <div style={styles.selectorMultiple}>
+            <MultiSelect
+              value={selectedDamage}
+              onChange={(e) => {
+                let codeDamages = e.value.map((item) => item.code);
+                let damagesArr = [];
+                if (codeDamages.includes("no-damage")) {
+                  damagesArr = [
+                    {
+                      name: "Sin daños",
+                      code: "no-damage",
+                    },
+                  ];
+                } else {
+                  damagesArr = e.value;
+                }
+                setSelectedDamage(damagesArr);
+              }}
+              display="chip"
+              options={damagesList}
+              optionLabel="name"
+              placeholder="Seleccionar"
+              maxSelectedLabels={5}
+              className="w-full md:w-20rem"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -89,6 +137,17 @@ const styles = {
   },
   imgStyle: {
     height: "100%",
+  },
+  selectorMultiple: {
+    justifyContent: "center",
+    display: "flex",
+  },
+  selectorDeDaños: {
+    display: "flex",
+    width: "100%",
+    justifyContent: "center",
+    margin: "auto",
+    gap: "2rem",
   },
 };
 
