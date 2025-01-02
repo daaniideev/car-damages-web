@@ -3,7 +3,7 @@ import ImageCarousel from "./ImageCarousel";
 import "../styles/otherStyles.css";
 import { direccionIp } from "../constants";
 function ModalReport({ show, handleClose, damages }) {
-  const [selectedIndex, setSelectedIndex] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null);
 
   useEffect(() => {
     if (show) {
@@ -12,14 +12,21 @@ function ModalReport({ show, handleClose, damages }) {
       const index = Array.from(slides).findIndex((slide) =>
         slide.classList.contains("selected")
       );
-      setSelectedIndex(index); // Actualizamos el estado con el índice seleccionado
+      setImageUrl(
+        `http://${direccionIp}:5000/${damages.message[index].car_damage_route}`
+      ); // Actualizamos el estado con el índice seleccionado
     }
   }, [show]);
+
+  useEffect(() => {
+    console.log("damages.message[selectedIndex]");
+    console.log(damages.message);
+    console.log(imageUrl);
+  }, [imageUrl]);
 
   if (!show) {
     return null; // No renderiza nada si el ModalReport no debe mostrarse
   }
-  console.log(damages);
 
   return (
     <div style={styles.overlay}>
@@ -34,11 +41,7 @@ function ModalReport({ show, handleClose, damages }) {
         </button>
         <h2 style={styles.h2Style}>Reportar error</h2>
         <div style={styles.divImgStyle}>
-          <img
-            style={styles.imgStyle}
-            src={`http://${direccionIp}:5000/${damages.message[selectedIndex].car_damage_route}`}
-            alt="Damage"
-          />
+          {<img style={styles.imgStyle} src={imageUrl} alt="Damage" />}
         </div>
       </div>
     </div>
