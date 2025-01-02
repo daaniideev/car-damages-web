@@ -62,14 +62,12 @@ function App() {
       <ModalCarousel
         show={showModalCarousel}
         handleClose={setShowModalCarousel}
-        title="Daños detectados"
         damages={damages}
         showModalReport={setShowModalReport}
       />
       <ModalReport
         show={showModalReport}
         handleClose={setShowModalReport}
-        title="Reportar error"
         damages={damages}
       />
     </div>

@@ -2,7 +2,7 @@ import React from "react";
 import ImageCarousel from "./ImageCarousel";
 import "../styles/otherStyles.css";
 
-function ModalCarousel({ show, handleClose, title, damages, showModalReport }) {
+function ModalCarousel({ show, handleClose, damages, showModalReport }) {
   if (!show) {
     return null; // No renderiza nada si el ModalCarousel no debe mostrarse
   }
@@ -18,7 +18,7 @@ function ModalCarousel({ show, handleClose, title, damages, showModalReport }) {
         >
           X
         </button>
-        <h2 style={styles.h2Style}>{title}</h2>
+        <h2 style={styles.h2Style}>Daños detectados</h2>
         <ImageCarousel damages={damages} />
         <p
           onClick={() => {

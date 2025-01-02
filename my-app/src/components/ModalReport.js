@@ -1,11 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ImageCarousel from "./ImageCarousel";
 import "../styles/otherStyles.css";
+import { direccionIp } from "../constants";
+function ModalReport({ show, handleClose, damages }) {
+  const [selectedIndex, setSelectedIndex] = useState(null);
 
-function ModalReport({ show, handleClose, title, damages }) {
+  useEffect(() => {
+    if (show) {
+      const a = document.getElementsByClassName("slider animated");
+      const slides = a[0].querySelectorAll("li"); // Seleccionamos todos los <li> dentro de a[0]
+      const index = Array.from(slides).findIndex((slide) =>
+        slide.classList.contains("selected")
+      );
+      setSelectedIndex(index); // Actualizamos el estado con el índice seleccionado
+    }
+  }, [show]);
+
   if (!show) {
     return null; // No renderiza nada si el ModalReport no debe mostrarse
   }
+  console.log(damages);
 
   return (
     <div style={styles.overlay}>
@@ -18,7 +32,14 @@ function ModalReport({ show, handleClose, title, damages }) {
         >
           X
         </button>
-        <h2 style={styles.h2Style}>{title}</h2>
+        <h2 style={styles.h2Style}>Reportar error</h2>
+        <div style={styles.divImgStyle}>
+          <img
+            style={styles.imgStyle}
+            src={`http://${direccionIp}:5000/${damages.message[selectedIndex].car_damage_route}`}
+            alt="Damage"
+          />
+        </div>
       </div>
     </div>
   );
@@ -58,6 +79,13 @@ const styles = {
   },
   h2Style: {
     height: "10%",
+  },
+  divImgStyle: {
+    height: "50%",
+    width: "100%",
+  },
+  imgStyle: {
+    height: "100%",
   },
 };
 
