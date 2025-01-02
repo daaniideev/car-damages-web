@@ -2,14 +2,14 @@ import React from "react";
 import ImageCarousel from "./ImageCarousel";
 import "../styles/otherStyles.css";
 
-function ModalCarousel({ show, handleClose, title, damages, showModalReport }) {
+function ModalReport({ show, handleClose, title, damages }) {
   if (!show) {
-    return null; // No renderiza nada si el ModalCarousel no debe mostrarse
+    return null; // No renderiza nada si el ModalReport no debe mostrarse
   }
 
   return (
     <div style={styles.overlay}>
-      <div style={styles.ModalCarousel}>
+      <div style={styles.ModalReport}>
         <button
           style={styles.closeButton}
           onClick={() => {
@@ -19,15 +19,6 @@ function ModalCarousel({ show, handleClose, title, damages, showModalReport }) {
           X
         </button>
         <h2 style={styles.h2Style}>{title}</h2>
-        <ImageCarousel damages={damages} />
-        <p
-          onClick={() => {
-            showModalReport(true);
-          }}
-          className="clicked"
-        >
-          Reportar error
-        </p>
       </div>
     </div>
   );
@@ -45,7 +36,7 @@ const styles = {
     justifyContent: "center",
     alignItems: "center",
   },
-  ModalCarousel: {
+  ModalReport: {
     backgroundColor: "white",
     padding: "20px",
     borderRadius: "8px",
@@ -70,4 +61,4 @@ const styles = {
   },
 };
 
-export default ModalCarousel;
+export default ModalReport;

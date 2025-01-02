@@ -7,12 +7,17 @@ import uploadVideo from "./api/uploadVideo";
 import getCarDamages from "./api/getCarDamages";
 import obtenerFecha from "./functions";
 import ModalCarousel from "./components/ModalCarousel";
+import ModalReport from "./components/ModalReport";
 function App() {
   // Mover el estado videoFile aquí
   const [videoFile, setVideoFile] = useState(null);
   const [videoPreview, setVideoPreview] = useState(null);
   const [showSpinner, setShowSpinner] = useState(false);
+  //
   const [showModalCarousel, setShowModalCarousel] = useState(false);
+  const [showModalReport, setShowModalReport] = useState(false);
+  //
+
   const [damages, setDamages] = useState({});
 
   const handleCancel = () => {
@@ -57,9 +62,16 @@ function App() {
       <ModalCarousel
         show={showModalCarousel}
         handleClose={setShowModalCarousel}
-        title="Contenido del ModalCarousel"
+        title="Daños detectados"
         damages={damages}
-      />{" "}
+        showModalReport={setShowModalReport}
+      />
+      <ModalReport
+        show={showModalReport}
+        handleClose={setShowModalReport}
+        title="Reportar error"
+        damages={damages}
+      />
     </div>
   );
 }
