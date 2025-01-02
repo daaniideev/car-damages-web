@@ -1,13 +1,13 @@
 import React from "react";
 import ImageCarousel from "./ImageCarousel";
-function Modal({ show, handleClose, title, damages }) {
+function ModalCarousel({ show, handleClose, title, damages }) {
   if (!show) {
-    return null; // No renderiza nada si el modal no debe mostrarse
+    return null; // No renderiza nada si el ModalCarousel no debe mostrarse
   }
 
   return (
     <div style={styles.overlay}>
-      <div style={styles.modal}>
+      <div style={styles.ModalCarousel}>
         <button
           style={styles.closeButton}
           onClick={() => {
@@ -36,7 +36,7 @@ const styles = {
     justifyContent: "center",
     alignItems: "center",
   },
-  modal: {
+  ModalCarousel: {
     backgroundColor: "white",
     padding: "20px",
     borderRadius: "8px",
@@ -61,4 +61,4 @@ const styles = {
   },
 };
 
-export default Modal;
+export default ModalCarousel;

@@ -6,13 +6,13 @@ import Spinner from "./components/Spinner";
 import uploadVideo from "./api/uploadVideo";
 import getCarDamages from "./api/getCarDamages";
 import obtenerFecha from "./functions";
-import Modal from "./components/Modal";
+import ModalCarousel from "./components/ModalCarousel";
 function App() {
   // Mover el estado videoFile aquí
   const [videoFile, setVideoFile] = useState(null);
   const [videoPreview, setVideoPreview] = useState(null);
   const [showSpinner, setShowSpinner] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  const [showModalCarousel, setShowModalCarousel] = useState(false);
   const [damages, setDamages] = useState({});
 
   const handleCancel = () => {
@@ -30,7 +30,7 @@ function App() {
     if (result) {
       console.log(result);
       setDamages(result);
-      setShowModal(true);
+      setShowModalCarousel(true);
       setShowSpinner(false);
     }
   };
@@ -54,10 +54,10 @@ function App() {
           onClick={handleSubmit}
         />
       </div>
-      <Modal
-        show={showModal}
-        handleClose={setShowModal}
-        title="Contenido del Modal"
+      <ModalCarousel
+        show={showModalCarousel}
+        handleClose={setShowModalCarousel}
+        title="Contenido del ModalCarousel"
         damages={damages}
       />{" "}
     </div>
