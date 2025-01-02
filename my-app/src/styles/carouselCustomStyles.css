@@ -1,0 +1,26 @@
+.carousel-root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.carousel-slider {
+  height: 80%;
+}
+
+.slide div {
+  height: 100%;
+}
+
+.carousel .slide {
+  height: 100%;
+  margin: auto;
+}
+
+.carousel .slider-wrapper {
+  height: 100%;
+}
+
+.carousel .slider {
+  height: 100%;
+}

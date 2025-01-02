@@ -1,0 +1,64 @@
+import React from "react";
+import ImageCarousel from "./ImageCarousel";
+function Modal({ show, handleClose, title, damages }) {
+  if (!show) {
+    return null; // No renderiza nada si el modal no debe mostrarse
+  }
+
+  return (
+    <div style={styles.overlay}>
+      <div style={styles.modal}>
+        <button
+          style={styles.closeButton}
+          onClick={() => {
+            handleClose(false);
+          }}
+        >
+          X
+        </button>
+        <h2 style={styles.h2Style}>{title}</h2>
+        {/* Correctamente usando la etiqueta <img> para mostrar la imagen */}
+        <ImageCarousel damages={damages} />
+      </div>
+    </div>
+  );
+}
+
+const styles = {
+  overlay: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0, 0, 0, 0.5)", // Fondo semitransparente
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modal: {
+    backgroundColor: "white",
+    padding: "20px",
+    borderRadius: "8px",
+    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+    position: "relative",
+    width: "40vw",
+    height: "50vh",
+    display: "flex",
+    flexDirection: "column",
+  },
+  closeButton: {
+    position: "absolute",
+    top: "10px",
+    right: "10px",
+    border: "none",
+    backgroundColor: "transparent",
+    fontSize: "20px",
+    cursor: "pointer",
+  },
+  h2Style: {
+    height: "10%",
+  },
+};
+
+export default Modal;
