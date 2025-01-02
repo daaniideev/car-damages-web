@@ -1,5 +1,7 @@
 import React from "react";
 import ImageCarousel from "./ImageCarousel";
+import "../styles/otherStyles.css";
+
 function ModalCarousel({ show, handleClose, title, damages }) {
   if (!show) {
     return null; // No renderiza nada si el ModalCarousel no debe mostrarse
@@ -17,8 +19,8 @@ function ModalCarousel({ show, handleClose, title, damages }) {
           X
         </button>
         <h2 style={styles.h2Style}>{title}</h2>
-        {/* Correctamente usando la etiqueta <img> para mostrar la imagen */}
         <ImageCarousel damages={damages} />
+        <p className="clicked">Reportar error</p>
       </div>
     </div>
   );

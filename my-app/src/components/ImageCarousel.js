@@ -26,7 +26,7 @@ function ImageCarousel({ damages }) {
 const styles = {
   carouselContainer: {
     width: "80%",
-    height: "90%",
+    height: "80%",
     margin: "auto",
     display: "flex",
   },
