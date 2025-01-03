@@ -74,6 +74,7 @@ const styles = {
   },
   h2Style: {
     height: "10%",
+    marginTop: 0,
   },
   p: {
     height: "10%",

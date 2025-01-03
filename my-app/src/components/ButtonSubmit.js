@@ -35,7 +35,7 @@ const styles = {
   button: {
     padding: "10px 20px",
     fontSize: "16px",
-    backgroundColor: "#4CAF50", // Verde para enviar
+    backgroundColor: "#17a2b8", // Verde para enviar
     color: "white",
     border: "none",
     borderRadius: "5px",

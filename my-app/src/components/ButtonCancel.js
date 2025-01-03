@@ -35,7 +35,7 @@ const styles = {
   button: {
     padding: "10px 20px",
     fontSize: "16px",
-    backgroundColor: "#f44336", // Rojo para cancelar
+    backgroundColor: "#6c757d", // Rojo para cancelar
     color: "white",
     border: "none",
     borderRadius: "5px",

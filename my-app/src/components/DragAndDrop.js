@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 const DragAndDrop = ({
   videoFile,
@@ -6,8 +6,11 @@ const DragAndDrop = ({
   videoPreview,
   setVideoPreview,
 }) => {
+  const [isDragging, setIsDragging] = useState(false); // Para controlar si hay un archivo siendo arrastrado
+
   const handleDrop = (e) => {
     e.preventDefault();
+    setIsDragging(false); // Restablecer estado de arrastre
     const file = e.dataTransfer.files[0];
 
     if (file && file.type === "video/mp4") {
@@ -20,6 +23,11 @@ const DragAndDrop = ({
 
   const handleDragOver = (e) => {
     e.preventDefault();
+    setIsDragging(true); // Establecer estado de arrastre
+  };
+
+  const handleDragLeave = () => {
+    setIsDragging(false); // Restablecer estado de arrastre cuando el archivo deja la zona
   };
 
   const handleFileUpload = (e) => {
@@ -37,9 +45,10 @@ const DragAndDrop = ({
       {/* Solo mostramos la zona de arrastre si no se ha cargado ningún archivo */}
       {!videoFile && (
         <div
-          style={styles.dropZone}
+          className={`drop-zone ${isDragging ? "dragover" : ""}`} // Añadir clase cuando arrastran un archivo
           onDrop={handleDrop}
           onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
         >
           <p>
             Arrastra y suelta tu archivo .mp4 aquí o haz clic para seleccionarlo
@@ -76,18 +85,6 @@ const styles = {
     alignItems: "center",
     justifyContent: "center",
     fontFamily: "Arial, sans-serif",
-  },
-  dropZone: {
-    width: "400px",
-    height: "200px",
-    border: "2px dashed #ccc",
-    borderRadius: "10px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    textAlign: "center",
-    position: "relative",
-    cursor: "pointer",
   },
   fileInput: {
     position: "absolute",

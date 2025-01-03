@@ -6,7 +6,8 @@ import "primereact/resources/primereact.min.css"; // Estilos de los componentes 
 import "primeicons/primeicons.css"; // Estilos de los iconos de PrimeIcons (si los necesitas)
 import "primereact/resources/themes/lara-light-indigo/theme.css"; // Un tema para los componentes (puedes elegir otro tema)
 import ButtonSubmit from "./ButtonSubmit";
-
+import reportErrors from "../api/reportErrors";
+import Spinner from "./Spinner";
 const damagesList = [
   { name: "Cristal roto", code: "glass shatter" },
   { name: "Bolladura", code: "dent" },
@@ -19,9 +20,13 @@ const damagesList = [
 function ModalReport({ show, handleClose, damages, imageIndex }) {
   const [imageUrl, setImageUrl] = useState(null);
   const [selectedDamage, setSelectedDamage] = useState(null);
+  const [showSpinner, setShowSpinner] = useState(false);
 
   const handleSubmit = async () => {
-    console.log(selectedDamage);
+    setShowSpinner(true);
+    const codes = selectedDamage.map((item) => item.code);
+    const response = await reportErrors(codes, imageUrl);
+    setShowSpinner(false);
   };
 
   useEffect(() => {
@@ -45,6 +50,8 @@ function ModalReport({ show, handleClose, damages, imageIndex }) {
 
   return (
     <div style={styles.overlay}>
+      {showSpinner && <Spinner />}
+
       <div style={styles.ModalReport}>
         <button
           className="clicked-no-underline"
@@ -70,14 +77,14 @@ function ModalReport({ show, handleClose, damages, imageIndex }) {
                   onChange={(e) => {
                     let codeDamages = e.value.map((item) => item.code);
                     let damagesArr = [];
-                    if (codeDamages[codeDamages.length - 1] == "no-damage") {
+                    if (codeDamages[codeDamages.length - 1] === "no-damage") {
                       damagesArr = [
                         {
                           name: "Sin daños",
                           code: "no-damage",
                         },
                       ];
-                    } else if (codeDamages[0] == "no-damage") {
+                    } else if (codeDamages[0] === "no-damage") {
                       damagesArr = e.value.slice(1);
                     } else {
                       damagesArr = e.value;

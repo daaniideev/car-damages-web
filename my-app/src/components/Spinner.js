@@ -11,11 +11,11 @@ const Spinner = () => {
 
 const styles = {
   spinnerContainer: {
-    position: "fixed", // Hace que el spinner se superponga sobre el contenido
-    top: "50%", // Centra el spinner verticalmente
-    left: "50%", // Centra el spinner horizontalmente
+    position: "absolute", // Cambiar a "absolute" para que esté relativo al padre
+    top: "50%", // Centra el spinner verticalmente con respecto al padre
+    left: "50%", // Centra el spinner horizontalmente con respecto al padre
     transform: "translate(-50%, -50%)", // Ajusta para que quede perfectamente centrado
-    zIndex: 9999, // Asegura que el spinner esté por encima de todo
+    zIndex: 9999, // Asegura que el spinner esté por encima de su contenedor padre
   },
 };
 

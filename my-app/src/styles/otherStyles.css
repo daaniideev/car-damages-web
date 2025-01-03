@@ -3,16 +3,16 @@
 /* Estilo para hacer que el texto sea clickable */
 .clicked {
   cursor: pointer;
-  color: #a9a9a9; /* Color azul para indicar interactividad */
+  color: #f39c12; /* Color azul para indicar interactividad */
   text-decoration: underline; /* Subraya el texto */
   margin-top: 20px;
+  height: 10%;
 }
 
 /* Efecto hover */
 .clicked:hover {
-  color: #6c6c6c; /* Gris más oscuro para el hover */
+  color: #e67e22; /* Color del enlace en hover (naranja suave) */
   text-decoration: none; /* Elimina la subrayado en el hover */
-  height: 10%;
 }
 
 /* Estilo para hacer que el texto sea clickable */
@@ -41,20 +41,17 @@
   text-decoration: none; /* Elimina la subrayado en el hover */
 }
 
-/* Efecto hover */
-.clicked:hover {
-  color: #6c6c6c; /* Gris más oscuro para el hover */
-  text-decoration: none; /* Elimina la subrayado en el hover */
-}
-
 .multiple-selector {
   width: 30%;
 }
 
 h1,
-h2,
+h2 {
+  color: #f39c12;
+}
+
 p {
-  color: #a9a9a9;
+  color: #ecf0f1;
 }
 
 .p-multiselect {
@@ -63,4 +60,24 @@ p {
 
 .p-multiselect .p-multiselect-label {
   text-align: left;
+}
+
+.drop-zone {
+  width: 400px;
+  height: 200px;
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  cursor: pointer;
+}
+
+.drop-zone:hover {
+  background-color: rgb(58, 76, 98); /* Cambio sutil en el color del borde */
+}
+.drop-zone.dragover {
+  background-color: rgb(58, 76, 98); /* Cambio sutil en el color del borde */
 }

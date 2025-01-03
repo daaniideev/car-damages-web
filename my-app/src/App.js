@@ -8,6 +8,7 @@ import getCarDamages from "./api/getCarDamages";
 import obtenerFecha from "./functions";
 import ModalCarousel from "./components/ModalCarousel";
 import ModalReport from "./components/ModalReport";
+
 function App() {
   // Mover el estado videoFile aquí
   const [videoFile, setVideoFile] = useState(null);
@@ -33,6 +34,7 @@ function App() {
 
     let result = await uploadVideo(videoFile, fileName);
     result = await getCarDamages(fileName);
+    console.log(result);
     if (result) {
       console.log(result);
       setDamages(result);
@@ -59,7 +61,7 @@ function App() {
             onClick={handleCancel}
           />
           <ButtonSubmit
-            text="Cargar viedo"
+            text="Cargar video"
             show={videoFile}
             onClick={handleSubmit}
           />
@@ -88,7 +90,7 @@ const styles = {
     flexDirection: "column", // Coloca los elementos en columna
     height: "100vh", // Altura completa de la ventana
     textAlign: "center", // Centra el texto
-    backgroundColor: "#1E1E1E", // El color debe estar entre comillas
+    backgroundColor: "#2c3e50",
     justifyContent: "center",
     aligItems: "center",
   },
