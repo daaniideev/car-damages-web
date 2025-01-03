@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 // Componente de botón de submit
-const ButtonSubmit = ({ text, show, onClick }) => {
+const ButtonSubmit = ({ text, show, onClick, clickable }) => {
   const [isActive, setIsActive] = useState(false);
 
   // Cambiar el estado al presionar y soltar el botón
@@ -19,11 +19,16 @@ const ButtonSubmit = ({ text, show, onClick }) => {
     <button
       type="submit"
       style={
-        isActive ? { ...styles.button, ...styles.buttonActive } : styles.button
+        isActive
+          ? { ...styles.button, ...styles.buttonActive }
+          : clickable
+          ? styles.button
+          : { ...styles.button, ...styles.buttonDisabled } // Aplica el estilo de deshabilitado si no es clickeable
       }
-      onClick={onClick}
-      onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}
+      onClick={clickable ? onClick : null} // Si no es clickeable, no ejecuta onClick
+      onMouseDown={clickable ? handleMouseDown : null} // Si no es clickeable, no maneja el evento de presionar
+      onMouseUp={clickable ? handleMouseUp : null} // Si no es clickeable, no maneja el evento de soltar
+      disabled={!clickable} // Deshabilita el botón si clickable es false
     >
       {text}
     </button>
@@ -46,6 +51,11 @@ const styles = {
   buttonActive: {
     transform: "scale(0.95)", // Efecto de "aplastamiento" al hacer clic
     backgroundColor: "#45a049", // Cambiar color de fondo cuando está presionado
+  },
+  // Estilo para cuando el botón no es clickeable
+  buttonDisabled: {
+    backgroundColor: "#d6d6d6", // Color de fondo gris para deshabilitado
+    cursor: "not-allowed", // Cursor deshabilitado
   },
 };
 

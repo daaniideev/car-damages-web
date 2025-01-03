@@ -8,13 +8,15 @@ import getCarDamages from "./api/getCarDamages";
 import obtenerFecha from "./functions";
 import ModalCarousel from "./components/ModalCarousel";
 import ModalReport from "./components/ModalReport";
-
+import Notificacion from "./components/Notificacion";
 function App() {
   // Mover el estado videoFile aquí
   const [videoFile, setVideoFile] = useState(null);
   const [videoPreview, setVideoPreview] = useState(null);
   const [showSpinner, setShowSpinner] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
   //
+  const [showModalButton, setShowModalButton] = useState(false);
   const [showModalCarousel, setShowModalCarousel] = useState(false);
   const [showModalReport, setShowModalReport] = useState(false);
   //
@@ -25,6 +27,7 @@ function App() {
   const handleCancel = () => {
     setVideoFile(null); // Restablecer el archivo cuando se cancela
     setVideoPreview(null); // Restablecer el preview
+    setShowModalButton(false); // Restablecer el preview
   };
 
   const handleSubmit = async () => {
@@ -36,15 +39,23 @@ function App() {
     result = await getCarDamages(fileName);
     console.log(result);
     if (result) {
-      console.log(result);
       setDamages(result);
-      setShowModalCarousel(true);
+      setShowModalButton(true);
       setShowSpinner(false);
+      setShowNotification(true);
     }
+  };
+  const handleSeeDamages = () => {
+    setShowModalCarousel(true);
   };
 
   return (
     <div style={styles.container}>
+      <Notificacion
+        text="Daños detectados"
+        type="success"
+        show={showNotification}
+      />
       <div style={!videoPreview ? styles.subcontainer : styles.subcontainer2}>
         <h1>Predictor de daños de coches</h1>
         <DragAndDrop
@@ -64,6 +75,13 @@ function App() {
             text="Cargar video"
             show={videoFile}
             onClick={handleSubmit}
+            clickable={!showModalButton}
+          />
+          <ButtonSubmit
+            text="Ver daños"
+            show={showModalButton}
+            onClick={handleSeeDamages}
+            clickable={showModalButton}
           />
         </div>
         <ModalCarousel

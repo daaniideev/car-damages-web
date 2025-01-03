@@ -81,3 +81,25 @@ p {
 .drop-zone.dragover {
   background-color: rgb(58, 76, 98); /* Cambio sutil en el color del borde */
 }
+
+@keyframes slideDown {
+  0% {
+    transform: translateX(-50%) translateY(-20px); /* Comienza desde arriba */
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(-50%) translateY(0); /* Se mueve a la posición final */
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  0% {
+    transform: translateX(-50%) translateY(0); /* Se mueve a la posición final */
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-50%) translateY(-20px);
+    opacity: 0;
+  }
+}
