@@ -76,11 +76,13 @@ function App() {
             text="Cargar video"
             show={videoFile && !showModalButton}
             onClick={handleSubmit}
+            type="uploadVideo"
           />
           <ButtonSubmit
             text="Ver daños"
             show={showModalButton}
             onClick={handleSeeDamages}
+            type="seeDamages"
           />
         </div>
         <ModalCarousel

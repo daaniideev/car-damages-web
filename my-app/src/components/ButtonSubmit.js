@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 // Componente de botón de submit
-const ButtonSubmit = ({ text, show, onClick }) => {
+const ButtonSubmit = ({ text, show, onClick, type }) => {
   const [isActive, setIsActive] = useState(false);
 
   // Cambiar el estado al presionar y soltar el botón
@@ -15,11 +15,18 @@ const ButtonSubmit = ({ text, show, onClick }) => {
 
   if (!show) return null;
 
+  // Estilo dinámico basado en el tipo
+  const dynamicStyles = {
+    ...(type === "seeDamages" && { backgroundColor: "rgb(39, 174, 96)" }),
+  };
+
   return (
     <button
       type="submit"
       style={
-        isActive ? { ...styles.button, ...styles.buttonActive } : styles.button
+        isActive
+          ? { ...styles.button, ...styles.buttonActive, ...dynamicStyles }
+          : { ...styles.button, ...dynamicStyles }
       }
       onClick={onClick}
       onMouseDown={handleMouseDown}
@@ -35,7 +42,7 @@ const styles = {
   button: {
     padding: "10px 20px",
     fontSize: "16px",
-    backgroundColor: "#17a2b8", // Verde para enviar
+    backgroundColor: "#17a2b8", // Azul claro para enviar
     color: "white",
     border: "none",
     borderRadius: "5px",

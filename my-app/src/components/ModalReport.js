@@ -8,6 +8,7 @@ import "primereact/resources/themes/lara-light-indigo/theme.css"; // Un tema par
 import ButtonSubmit from "./ButtonSubmit";
 import reportErrors from "../api/reportErrors";
 import Spinner from "./Spinner";
+import Notificacion from "./Notificacion";
 const damagesList = [
   { name: "Cristal roto", code: "glass shatter" },
   { name: "Bolladura", code: "dent" },
@@ -21,12 +22,22 @@ function ModalReport({ show, handleClose, damages, imageIndex }) {
   const [imageUrl, setImageUrl] = useState(null);
   const [selectedDamage, setSelectedDamage] = useState(null);
   const [showSpinner, setShowSpinner] = useState(false);
+  const [showErrorNotification, setShowErrorNotification] = useState(false);
+  const [showSuccessNotification, setShowSuccessNotification] = useState(false);
 
   const handleSubmit = async () => {
     setShowSpinner(true);
     const codes = selectedDamage.map((item) => item.code);
     const response = await reportErrors(codes, imageUrl);
-    setShowSpinner(false);
+    console.log(response);
+
+    if (response !== null) {
+      setShowSpinner(false);
+      setShowSuccessNotification(true);
+    } else {
+      setShowSpinner(false);
+      showErrorNotification(true);
+    }
   };
 
   useEffect(() => {
@@ -50,6 +61,18 @@ function ModalReport({ show, handleClose, damages, imageIndex }) {
 
   return (
     <div style={styles.overlay}>
+      <Notificacion
+        text="Error reportado"
+        type="success"
+        show={showSuccessNotification}
+        updateShowParent={setShowSuccessNotification}
+      />
+      <Notificacion
+        text="No se ha podido reportar el error"
+        type="error"
+        show={showErrorNotification}
+        updateShowParent={setShowErrorNotification}
+      />
       {showSpinner && <Spinner />}
 
       <div style={styles.ModalReport}>
