@@ -18,22 +18,26 @@ const damagesList = [
   { name: "Sin daños", code: "no-damage" },
 ];
 
-function ModalReport({ show, handleClose, damages, imageIndex }) {
+function ModalReport({
+  show,
+  handleClose,
+  damages,
+  imageIndex,
+  showSuccessNotification,
+  showErrorNotification,
+}) {
   const [imageUrl, setImageUrl] = useState(null);
   const [selectedDamage, setSelectedDamage] = useState(null);
   const [showSpinner, setShowSpinner] = useState(false);
-  const [showErrorNotification, setShowErrorNotification] = useState(false);
-  const [showSuccessNotification, setShowSuccessNotification] = useState(false);
 
   const handleSubmit = async () => {
     setShowSpinner(true);
     const codes = selectedDamage.map((item) => item.code);
     const response = await reportErrors(codes, imageUrl);
-    console.log(response);
 
     if (response !== null) {
       setShowSpinner(false);
-      setShowSuccessNotification(true);
+      showSuccessNotification(true);
     } else {
       setShowSpinner(false);
       showErrorNotification(true);
@@ -53,7 +57,6 @@ function ModalReport({ show, handleClose, damages, imageIndex }) {
       let selectedDamageArr = selectedDamage.map((item) => item.code);
     }
   }, [selectedDamage]);
-  useEffect(() => {}, [imageUrl]);
 
   if (!show) {
     return null; // No renderiza nada si el ModalReport no debe mostrarse
@@ -61,18 +64,6 @@ function ModalReport({ show, handleClose, damages, imageIndex }) {
 
   return (
     <div style={styles.overlay}>
-      <Notificacion
-        text="Error reportado"
-        type="success"
-        show={showSuccessNotification}
-        updateShowParent={setShowSuccessNotification}
-      />
-      <Notificacion
-        text="No se ha podido reportar el error"
-        type="error"
-        show={showErrorNotification}
-        updateShowParent={setShowErrorNotification}
-      />
       {showSpinner && <Spinner />}
 
       <div style={styles.ModalReport}>

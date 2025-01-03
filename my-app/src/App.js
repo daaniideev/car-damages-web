@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DragAndDrop from "./components/DragAndDrop";
 import ButtonSubmit from "./components/ButtonSubmit";
 import ButtonCancel from "./components/ButtonCancel";
@@ -14,8 +14,15 @@ function App() {
   const [videoFile, setVideoFile] = useState(null);
   const [videoPreview, setVideoPreview] = useState(null);
   const [showSpinner, setShowSpinner] = useState(false);
+
+  // Notifications
   const [showNotification, setShowNotification] = useState(false);
-  //
+  const [showSuccessReportNotification, setShowSuccessReportNotification] =
+    useState(false);
+  const [showErrorReportNotification, setShowErrorSuccessReportNotification] =
+    useState(false);
+  // Notifications
+
   const [showModalButton, setShowModalButton] = useState(false);
   const [showModalCarousel, setShowModalCarousel] = useState(false);
   const [showModalReport, setShowModalReport] = useState(false);
@@ -37,7 +44,6 @@ function App() {
 
     let result = await uploadVideo(videoFile, fileName);
     result = await getCarDamages(fileName);
-    console.log(result);
     if (result) {
       setDamages(result);
       setShowModalButton(true);
@@ -49,12 +55,29 @@ function App() {
     setShowModalCarousel(true);
   };
 
+  useEffect(() => {
+    (showSuccessReportNotification || showErrorReportNotification) &&
+      setShowModalReport(false);
+  }, [showSuccessReportNotification, showErrorReportNotification]);
+
   return (
     <div style={styles.container}>
       <Notificacion
         text="Daños detectados"
         type="success"
         show={showNotification}
+        updateShowParent={setShowNotification}
+      />
+      <Notificacion
+        text="Error reportado"
+        type="success"
+        show={showSuccessReportNotification}
+        updateShowParent={setShowNotification}
+      />
+      <Notificacion
+        text="No se ha podido reportar el error"
+        type="error"
+        show={showErrorReportNotification}
         updateShowParent={setShowNotification}
       />
       <div style={!videoPreview ? styles.subcontainer : styles.subcontainer2}>
@@ -97,6 +120,8 @@ function App() {
           handleClose={setShowModalReport}
           damages={damages}
           imageIndex={imageIndex}
+          showSuccessNotification={setShowSuccessReportNotification}
+          showErrorNotification={setShowErrorSuccessReportNotification}
         />
       </div>
     </div>
