@@ -55,6 +55,7 @@ function App() {
         text="Daños detectados"
         type="success"
         show={showNotification}
+        updateShowParent={setShowNotification}
       />
       <div style={!videoPreview ? styles.subcontainer : styles.subcontainer2}>
         <h1>Predictor de daños de coches</h1>
@@ -73,15 +74,13 @@ function App() {
           />
           <ButtonSubmit
             text="Cargar video"
-            show={videoFile}
+            show={videoFile && !showModalButton}
             onClick={handleSubmit}
-            clickable={!showModalButton}
           />
           <ButtonSubmit
             text="Ver daños"
             show={showModalButton}
             onClick={handleSeeDamages}
-            clickable={showModalButton}
           />
         </div>
         <ModalCarousel

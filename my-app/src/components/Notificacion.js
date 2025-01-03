@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 // Componente de notificación
-const Notificacion = ({ type, text, show }) => {
+const Notificacion = ({ type, text, show, updateShowParent }) => {
   // Estado para controlar la visibilidad de la notificación
   const [visible, setVisible] = useState(false);
   const [shouldRender, setShouldRender] = useState(false);
@@ -35,6 +35,10 @@ const Notificacion = ({ type, text, show }) => {
 
     return () => clearTimeout(timer); // Limpieza del temporizador
   }, [visible]);
+
+  useEffect(() => {
+    !shouldRender && updateShowParent(false);
+  }, [shouldRender]);
 
   // Si la notificación no es visible, no se renderiza
   if (!shouldRender) return null;
