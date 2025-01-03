@@ -3,15 +3,47 @@
 /* Estilo para hacer que el texto sea clickable */
 .clicked {
   cursor: pointer;
-  color: #007bff; /* Color azul para indicar interactividad */
+  color: #a9a9a9; /* Color azul para indicar interactividad */
   text-decoration: underline; /* Subraya el texto */
   margin-top: 20px;
-  text-align: center;
 }
 
 /* Efecto hover */
 .clicked:hover {
-  color: #0056b3; /* Cambia a un tono más oscuro cuando se pasa el cursor */
+  color: #6c6c6c; /* Gris más oscuro para el hover */
+  text-decoration: none; /* Elimina la subrayado en el hover */
+  height: 10%;
+}
+
+/* Estilo para hacer que el texto sea clickable */
+.clicked-no-underline {
+  cursor: pointer;
+  color: #a9a9a9; /* Color para indicar interactividad */
+  top: 10px;
+  right: 10px;
+  border: none;
+  background-color: transparent; /* 'backgroundColor' corregido a 'background-color' */
+  font-size: 20px; /* 'fontSize' corregido a 'font-size' */
+  position: absolute;
+}
+
+/* Estilo para hacer que el texto sea clickable */
+.clicked-no-underline:hover {
+  cursor: pointer;
+  color: #a9a9a9; /* Color para indicar interactividad */
+  top: 10px;
+  right: 10px;
+  border: none;
+  background-color: transparent; /* 'backgroundColor' corregido a 'background-color' */
+  font-size: 20px; /* 'fontSize' corregido a 'font-size' */
+  position: absolute;
+  color: #6c6c6c; /* Gris más oscuro para el hover */
+  text-decoration: none; /* Elimina la subrayado en el hover */
+}
+
+/* Efecto hover */
+.clicked:hover {
+  color: #6c6c6c; /* Gris más oscuro para el hover */
   text-decoration: none; /* Elimina la subrayado en el hover */
 }
 
@@ -19,5 +51,16 @@
   width: 30%;
 }
 
-.selector-multiple {
+h1,
+h2,
+p {
+  color: #a9a9a9;
+}
+
+.p-multiselect {
+  width: 20rem;
+}
+
+.p-multiselect .p-multiselect-label {
+  text-align: left;
 }

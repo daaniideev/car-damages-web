@@ -17,6 +17,7 @@ function App() {
   const [showModalCarousel, setShowModalCarousel] = useState(false);
   const [showModalReport, setShowModalReport] = useState(false);
   //
+  const [imageIndex, setImageIndex] = useState(0);
 
   const [damages, setDamages] = useState({});
 
@@ -42,34 +43,41 @@ function App() {
 
   return (
     <div style={styles.container}>
-      <h1>Predictor de daños de coches</h1>
-      {/* Pasamos videoFile y setVideoFile como props a DragAndDrop */}
-      <DragAndDrop
-        videoFile={videoFile}
-        setVideoFile={setVideoFile}
-        videoPreview={videoPreview}
-        setVideoPreview={setVideoPreview}
-      />
-      {showSpinner && <Spinner />}
-      <div style={styles.buttonsContainer}>
-        <ButtonCancel text="Cancelar" show={videoFile} onClick={handleCancel} />
-        <ButtonSubmit
-          text="Cargar viedo"
-          show={videoFile}
-          onClick={handleSubmit}
+      <div style={!videoPreview ? styles.subcontainer : styles.subcontainer2}>
+        <h1>Predictor de daños de coches</h1>
+        <DragAndDrop
+          videoFile={videoFile}
+          setVideoFile={setVideoFile}
+          videoPreview={videoPreview}
+          setVideoPreview={setVideoPreview}
+        />
+        {showSpinner && <Spinner />}
+        <div style={styles.buttonsContainer}>
+          <ButtonCancel
+            text="Cancelar"
+            show={videoFile}
+            onClick={handleCancel}
+          />
+          <ButtonSubmit
+            text="Cargar viedo"
+            show={videoFile}
+            onClick={handleSubmit}
+          />
+        </div>
+        <ModalCarousel
+          show={showModalCarousel}
+          handleClose={setShowModalCarousel}
+          damages={damages}
+          showModalReport={setShowModalReport}
+          getImageIndexApp={setImageIndex}
+        />
+        <ModalReport
+          show={showModalReport}
+          handleClose={setShowModalReport}
+          damages={damages}
+          imageIndex={imageIndex}
         />
       </div>
-      <ModalCarousel
-        show={showModalCarousel}
-        handleClose={setShowModalCarousel}
-        damages={damages}
-        showModalReport={setShowModalReport}
-      />
-      <ModalReport
-        show={showModalReport}
-        handleClose={setShowModalReport}
-        damages={damages}
-      />
     </div>
   );
 }
@@ -78,10 +86,22 @@ const styles = {
   container: {
     display: "flex", // Usa flexbox
     flexDirection: "column", // Coloca los elementos en columna
-    justifyContent: "center", // Centra horizontalmente
-    alignItems: "center",
     height: "100vh", // Altura completa de la ventana
     textAlign: "center", // Centra el texto
+    backgroundColor: "#1E1E1E", // El color debe estar entre comillas
+    justifyContent: "center",
+    aligItems: "center",
+  },
+  subcontainer: {
+    display: "flex",
+    flexDirection: "column", // Organiza los elementos en columna
+    position: "relative", // Establecemos posición relativa para mover el subcontainer
+    top: "-200px", // Mueve el subcontainer 100px hacia arriba
+  },
+  subcontainer2: {
+    display: "flex",
+    flexDirection: "column", // Organiza los elementos en columna
+    position: "relative", // Establecemos posición relativa para mover el subcontainer
   },
   buttonsContainer: {
     display: "flex",

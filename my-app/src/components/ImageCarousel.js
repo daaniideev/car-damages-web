@@ -1,18 +1,32 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "../styles/carouselCustomStyles.css";
 import { direccionIp } from "../constants";
 
-function ImageCarousel({ damages }) {
-  console.log(damages.message.slice(0, 3));
+function ImageCarousel({ damages, getImageIndexModalCarousel }) {
+  const [imageIndex, setImageIndex] = useState(0);
+
+  useEffect(() => {
+    getImageIndexModalCarousel(imageIndex);
+  }, [imageIndex]);
+
   const images = damages.message.map(
     (damage) => `http://${direccionIp}:5000/${damage.car_damage_route}`
   );
 
+  // Esta función se llama cuando cambia la imagen
+  const handleChange = (index) => {
+    setImageIndex(index);
+  };
+
   return (
     <div style={styles.carouselContainer}>
-      <Carousel useKeyboardArrows={true}>
+      <Carousel
+        useKeyboardArrows={true}
+        selectedItem={imageIndex} // Asegura que el índice se sincronice con el carousel
+        onChange={handleChange} // Actualiza el índice cuando cambian las imágenes
+      >
         {images.map((url, index) => (
           <div key={index}>
             <img alt={`Damage ${index}`} src={url} style={styles.image} />
@@ -26,7 +40,7 @@ function ImageCarousel({ damages }) {
 const styles = {
   carouselContainer: {
     width: "80%",
-    height: "80%",
+    height: "70%",
     margin: "auto",
     display: "flex",
   },

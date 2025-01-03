@@ -5,28 +5,29 @@ import { MultiSelect } from "primereact/multiselect";
 import "primereact/resources/primereact.min.css"; // Estilos de los componentes de PrimeReact
 import "primeicons/primeicons.css"; // Estilos de los iconos de PrimeIcons (si los necesitas)
 import "primereact/resources/themes/lara-light-indigo/theme.css"; // Un tema para los componentes (puedes elegir otro tema)
+import ButtonSubmit from "./ButtonSubmit";
 
 const damagesList = [
-  { name: "Cristal roto", code: "glass-shatter" },
+  { name: "Cristal roto", code: "glass shatter" },
   { name: "Bolladura", code: "dent" },
   { name: "Rallajo", code: "scratch" },
-  { name: "Rueda pinchada", code: "tire-flat" },
-  { name: "Faro roto", code: "broken-lamp" },
+  { name: "Rueda pinchada", code: "tire flat" },
+  { name: "Faro roto", code: "broken lamp" },
   { name: "Sin daños", code: "no-damage" },
 ];
-function ModalReport({ show, handleClose, damages }) {
+
+function ModalReport({ show, handleClose, damages, imageIndex }) {
   const [imageUrl, setImageUrl] = useState(null);
   const [selectedDamage, setSelectedDamage] = useState(null);
 
+  const handleSubmit = async () => {
+    console.log(selectedDamage);
+  };
+
   useEffect(() => {
     if (show) {
-      const a = document.getElementsByClassName("slider animated");
-      const slides = a[0].querySelectorAll("li"); // Seleccionamos todos los <li> dentro de a[0]
-      const index = Array.from(slides).findIndex((slide) =>
-        slide.classList.contains("selected")
-      );
       setImageUrl(
-        `http://${direccionIp}:5000/${damages.message[index].car_damage_route}`
+        `http://${direccionIp}:5000/${damages.message[imageIndex].car_damage_route}`
       ); // Actualizamos el estado con el índice seleccionado
     }
   }, [show]);
@@ -34,14 +35,9 @@ function ModalReport({ show, handleClose, damages }) {
   useEffect(() => {
     if (selectedDamage && selectedDamage.length > 0) {
       let selectedDamageArr = selectedDamage.map((item) => item.code);
-      console.log(selectedDamageArr);
     }
   }, [selectedDamage]);
-  useEffect(() => {
-    console.log("damages.message[selectedIndex]");
-    console.log(damages.message);
-    console.log(imageUrl);
-  }, [imageUrl]);
+  useEffect(() => {}, [imageUrl]);
 
   if (!show) {
     return null; // No renderiza nada si el ModalReport no debe mostrarse
@@ -51,8 +47,9 @@ function ModalReport({ show, handleClose, damages }) {
     <div style={styles.overlay}>
       <div style={styles.ModalReport}>
         <button
-          style={styles.closeButton}
+          className="clicked-no-underline"
           onClick={() => {
+            setSelectedDamage(null);
             handleClose(false);
           }}
         >
@@ -63,32 +60,40 @@ function ModalReport({ show, handleClose, damages }) {
           {<img style={styles.imgStyle} src={imageUrl} alt="Damage" />}
         </div>
         <div style={styles.selectorDeDaños}>
-          <p>Selecciona los daños:</p>
-          <div style={styles.selectorMultiple}>
-            <MultiSelect
-              value={selectedDamage}
-              onChange={(e) => {
-                let codeDamages = e.value.map((item) => item.code);
-                let damagesArr = [];
-                if (codeDamages.includes("no-damage")) {
-                  damagesArr = [
-                    {
-                      name: "Sin daños",
-                      code: "no-damage",
-                    },
-                  ];
-                } else {
-                  damagesArr = e.value;
-                }
-                setSelectedDamage(damagesArr);
-              }}
-              display="chip"
-              options={damagesList}
-              optionLabel="name"
-              placeholder="Seleccionar"
-              maxSelectedLabels={5}
-              className="w-full md:w-20rem"
-            />
+          <div style={styles.selectorMultipleContainer}>
+            <p>Selecciona los daños:</p>
+            <div style={styles.selectorMultiple}>
+              <div className="card flex justify-content-center">
+                <MultiSelect
+                  filter
+                  value={selectedDamage}
+                  onChange={(e) => {
+                    let codeDamages = e.value.map((item) => item.code);
+                    let damagesArr = [];
+                    if (codeDamages[codeDamages.length - 1] == "no-damage") {
+                      damagesArr = [
+                        {
+                          name: "Sin daños",
+                          code: "no-damage",
+                        },
+                      ];
+                    } else if (codeDamages[0] == "no-damage") {
+                      damagesArr = e.value.slice(1);
+                    } else {
+                      damagesArr = e.value;
+                    }
+                    setSelectedDamage(damagesArr);
+                  }}
+                  options={damagesList}
+                  optionLabel="name"
+                  placeholder="Seleccionar"
+                  className="w-full md:w-20rem"
+                />
+              </div>
+            </div>
+          </div>
+          <div style={styles.buttonContainer}>
+            <ButtonSubmit text="Enviar" show={true} onClick={handleSubmit} />{" "}
           </div>
         </div>
       </div>
@@ -100,10 +105,9 @@ const styles = {
   overlay: {
     position: "fixed",
     top: 0,
-    left: 0,
+    left: "100px",
     right: 0,
-    bottom: 0,
-    backgroundColor: "rgba(0, 0, 0, 0.5)", // Fondo semitransparente
+    bottom: "100px",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -111,28 +115,21 @@ const styles = {
   ModalReport: {
     backgroundColor: "white",
     padding: "20px",
-    borderRadius: "8px",
+    borderRadius: "20px",
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
     position: "relative",
     width: "40vw",
     height: "50vh",
     display: "flex",
     flexDirection: "column",
+    backgroundColor: "#1E1E1E",
   },
-  closeButton: {
-    position: "absolute",
-    top: "10px",
-    right: "10px",
-    border: "none",
-    backgroundColor: "transparent",
-    fontSize: "20px",
-    cursor: "pointer",
-  },
+  buttonContainer: {},
   h2Style: {
     height: "10%",
   },
   divImgStyle: {
-    height: "50%",
+    height: "70%",
     width: "100%",
   },
   imgStyle: {
@@ -141,14 +138,20 @@ const styles = {
   selectorMultiple: {
     justifyContent: "center",
     display: "flex",
+    width: "",
   },
   selectorDeDaños: {
     display: "flex",
+    flexDirection: "column",
+    width: "100%",
+    justifyContent: "space-around",
+    height: "40%",
+  },
+  selectorMultipleContainer: {
+    display: "flex",
     width: "100%",
     justifyContent: "center",
-    margin: "auto",
-    gap: "2rem",
+    gap: "5%",
   },
 };
-
 export default ModalReport;
