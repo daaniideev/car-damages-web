@@ -74,13 +74,13 @@ function App() {
         text={notificationMessage}
         type="success"
         show={showSuccessReportNotification}
-        updateShowParent={setShowNotification}
+        updateShowParent={setShowSuccessReportNotification}
       />
       <Notificacion
         text={notificationMessage}
         type="error"
         show={showErrorReportNotification}
-        updateShowParent={setShowNotification}
+        updateShowParent={setShowErrorSuccessReportNotification}
       />
       <div style={!videoPreview ? styles.subcontainer : styles.subcontainer2}>
         <h1>Predictor de daños de coches</h1>

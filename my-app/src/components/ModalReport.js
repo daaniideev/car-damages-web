@@ -12,7 +12,7 @@ import Spinner from "./Spinner";
 const damagesList = [
   { name: "cristal roto", code: "glass shatter" },
   { name: "bolladura", code: "dent" },
-  { name: "rallajo", code: "scratch" },
+  { name: "rallada", code: "scratch" },
   { name: "rueda pinchada", code: "tire flat" },
   { name: "faro roto", code: "broken lamp" },
   { name: "sin daños", code: "no-damage" },
@@ -33,20 +33,23 @@ function ModalReport({
   const [showSpinner, setShowSpinner] = useState(false);
   const handleSubmit = async () => {
     const names = selectedDamage.map((item) => item.code);
-    console.log("names");
-    console.log(names);
-    console.log("names");
-
+    setShowSpinner(true);
     if (names.length === 0) {
       notificationMessage("Selecciona al menos un daño.");
       showErrorNotification(true);
-    } else if (names.length === 1 && names[0] === "no-damage") {
+      setShowSpinner(false);
+      return;
+    } else if (
+      names.length === 1 &&
+      names[0] === damages[imageIndex].car_damage
+    ) {
       notificationMessage(
         "Selecciona un daño distinto al que el modelo ya ha predicho."
       );
       showErrorNotification(true);
+      setShowSpinner(false);
+      return;
     }
-    setShowSpinner(true);
     const codes = selectedDamage.map((item) => item.code);
     const response = await reportErrors(codes, imageUrl);
     if (response !== null) {
@@ -110,9 +113,11 @@ function ModalReport({
                     let codeDamages = e.value.map((item) => item.code);
                     let damagesArr = [];
                     if (codeDamages[codeDamages.length - 1] === "no-damage") {
+                      console.log("e.value");
+                      console.log(e.value);
                       damagesArr = [
                         {
-                          name: "Sin daños",
+                          name: "sin daños",
                           code: "no-damage",
                         },
                       ];
