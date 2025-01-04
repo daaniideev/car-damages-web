@@ -11,7 +11,7 @@ function ImageCarousel({ damages, getImageIndexModalCarousel }) {
     getImageIndexModalCarousel(imageIndex);
   }, [imageIndex]);
 
-  const images = damages.message.map(
+  const images = damages.map(
     (damage) => `http://${direccionIp}:5000/${damage.car_damage_route}`
   );
 

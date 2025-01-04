@@ -8,6 +8,7 @@ function ModalCarousel({
   damages,
   showModalReport,
   getImageIndexApp,
+  notificationMessage,
 }) {
   const [imageIndex, setImageIndex] = useState(0);
 
@@ -28,7 +29,10 @@ function ModalCarousel({
             X
           </button>
           <h2 style={styles.h2Style}>Daños detectados</h2>
-          <p style={styles.p}>{damages.message[imageIndex].car_damage}</p>
+          <p style={styles.p}>
+            {damages[imageIndex].car_damage.charAt(0).toUpperCase() +
+              damages[imageIndex].car_damage.slice(1)}
+          </p>
           <ImageCarousel
             damages={damages}
             getImageIndexModalCarousel={setImageIndex}

@@ -21,6 +21,7 @@ function App() {
     useState(false);
   const [showErrorReportNotification, setShowErrorSuccessReportNotification] =
     useState(false);
+  const [notificationMessage, setNotificationMessage] = useState("");
   // Notifications
 
   const [showModalButton, setShowModalButton] = useState(false);
@@ -45,7 +46,8 @@ function App() {
     let result = await uploadVideo(videoFile, fileName);
     result = await getCarDamages(fileName);
     if (result) {
-      setDamages(result);
+      setNotificationMessage("Daños detectados.");
+      setDamages(result.message);
       setShowModalButton(true);
       setShowSpinner(false);
       setShowNotification(true);
@@ -63,19 +65,19 @@ function App() {
   return (
     <div style={styles.container}>
       <Notificacion
-        text="Daños detectados"
+        text={notificationMessage}
         type="success"
         show={showNotification}
         updateShowParent={setShowNotification}
       />
       <Notificacion
-        text="Error reportado"
+        text={notificationMessage}
         type="success"
         show={showSuccessReportNotification}
         updateShowParent={setShowNotification}
       />
       <Notificacion
-        text="No se ha podido reportar el error"
+        text={notificationMessage}
         type="error"
         show={showErrorReportNotification}
         updateShowParent={setShowNotification}
@@ -114,6 +116,7 @@ function App() {
           damages={damages}
           showModalReport={setShowModalReport}
           getImageIndexApp={setImageIndex}
+          notificationMessage={setNotificationMessage}
         />
         <ModalReport
           show={showModalReport}
@@ -122,6 +125,8 @@ function App() {
           imageIndex={imageIndex}
           showSuccessNotification={setShowSuccessReportNotification}
           showErrorNotification={setShowErrorSuccessReportNotification}
+          setDamages={setDamages}
+          notificationMessage={setNotificationMessage}
         />
       </div>
     </div>

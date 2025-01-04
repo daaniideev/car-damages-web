@@ -8,14 +8,14 @@ import "primereact/resources/themes/lara-light-indigo/theme.css"; // Un tema par
 import ButtonSubmit from "./ButtonSubmit";
 import reportErrors from "../api/reportErrors";
 import Spinner from "./Spinner";
-import Notificacion from "./Notificacion";
+
 const damagesList = [
-  { name: "Cristal roto", code: "glass shatter" },
-  { name: "Bolladura", code: "dent" },
-  { name: "Rallajo", code: "scratch" },
-  { name: "Rueda pinchada", code: "tire flat" },
-  { name: "Faro roto", code: "broken lamp" },
-  { name: "Sin daños", code: "no-damage" },
+  { name: "cristal roto", code: "glass shatter" },
+  { name: "bolladura", code: "dent" },
+  { name: "rallajo", code: "scratch" },
+  { name: "rueda pinchada", code: "tire flat" },
+  { name: "faro roto", code: "broken lamp" },
+  { name: "sin daños", code: "no-damage" },
 ];
 
 function ModalReport({
@@ -25,20 +25,44 @@ function ModalReport({
   imageIndex,
   showSuccessNotification,
   showErrorNotification,
+  setDamages,
+  notificationMessage,
 }) {
   const [imageUrl, setImageUrl] = useState(null);
   const [selectedDamage, setSelectedDamage] = useState(null);
   const [showSpinner, setShowSpinner] = useState(false);
-
   const handleSubmit = async () => {
+    const names = selectedDamage.map((item) => item.code);
+    console.log("names");
+    console.log(names);
+    console.log("names");
+
+    if (names.length === 0) {
+      notificationMessage("Selecciona al menos un daño.");
+      showErrorNotification(true);
+    } else if (names.length === 1 && names[0] === "no-damage") {
+      notificationMessage(
+        "Selecciona un daño distinto al que el modelo ya ha predicho."
+      );
+      showErrorNotification(true);
+    }
     setShowSpinner(true);
     const codes = selectedDamage.map((item) => item.code);
     const response = await reportErrors(codes, imageUrl);
-
     if (response !== null) {
+      let damagesString = selectedDamage.map((item) => item.name).join(", ");
+      // La última coma la quito y pongo un 'y':
+      damagesString = damagesString.replace(/,(?=[^,]*$)/, " y");
+      let damagesObj = damages;
+      damagesObj[imageIndex].car_damage = damagesString;
+      setDamages(damagesObj);
+      setSelectedDamage(null);
       setShowSpinner(false);
+      notificationMessage("Error reportado.");
       showSuccessNotification(true);
     } else {
+      notificationMessage("No se ha podido reportar el error.");
+      setSelectedDamage(null);
       setShowSpinner(false);
       showErrorNotification(true);
     }
@@ -47,19 +71,13 @@ function ModalReport({
   useEffect(() => {
     if (show) {
       setImageUrl(
-        `http://${direccionIp}:5000/${damages.message[imageIndex].car_damage_route}`
-      ); // Actualizamos el estado con el índice seleccionado
+        `http://${direccionIp}:5000/${damages[imageIndex].car_damage_route}`
+      );
     }
-  }, [show]);
-
-  useEffect(() => {
-    if (selectedDamage && selectedDamage.length > 0) {
-      let selectedDamageArr = selectedDamage.map((item) => item.code);
-    }
-  }, [selectedDamage]);
+  }, [show, damages, imageIndex]);
 
   if (!show) {
-    return null; // No renderiza nada si el ModalReport no debe mostrarse
+    return null;
   }
 
   return (
@@ -134,7 +152,6 @@ const styles = {
     alignItems: "center",
   },
   ModalReport: {
-    backgroundColor: "white",
     padding: "20px",
     borderRadius: "20px",
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
