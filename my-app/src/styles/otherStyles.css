@@ -5,8 +5,8 @@
   cursor: pointer;
   color: #f39c12; /* Color azul para indicar interactividad */
   text-decoration: underline; /* Subraya el texto */
-  margin-top: 20px;
-  height: 10%;
+  margin: 10px 0 0 0;
+  height: 5%;
 }
 
 /* Efecto hover */
@@ -48,6 +48,10 @@
 h1,
 h2 {
   color: #f39c12;
+}
+
+h3 {
+  color: #f39c12; /* Un naranja ligeramente más oscuro que #f39c12 */
 }
 
 p {
@@ -102,4 +106,12 @@ p {
     transform: translateX(-50%) translateY(-20px);
     opacity: 0;
   }
+}
+
+.carousel .carousel-status {
+  color: "lightyellow";
+}
+
+.dot {
+  color: "lightyellow";
 }

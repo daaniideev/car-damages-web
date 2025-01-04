@@ -40,9 +40,10 @@ function ImageCarousel({ damages, getImageIndexModalCarousel }) {
 const styles = {
   carouselContainer: {
     width: "80%",
-    height: "70%",
+    height: "100%",
     margin: "auto",
     display: "flex",
+    paddingTop: "10px",
   },
   image: {
     width: "100%",

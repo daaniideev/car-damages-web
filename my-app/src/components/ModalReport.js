@@ -158,7 +158,7 @@ const styles = {
   },
   ModalReport: {
     padding: "20px",
-    borderRadius: "20px",
+    borderRadius: "10px",
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
     position: "relative",
     width: "40vw",
