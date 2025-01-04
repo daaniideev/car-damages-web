@@ -29,7 +29,7 @@ function ModalReport({
   notificationMessage,
 }) {
   const [imageUrl, setImageUrl] = useState(null);
-  const [selectedDamage, setSelectedDamage] = useState(null);
+  const [selectedDamage, setSelectedDamage] = useState([]);
   const [showSpinner, setShowSpinner] = useState(false);
   const handleSubmit = async () => {
     const names = selectedDamage.map((item) => item.code);
@@ -165,7 +165,7 @@ const styles = {
     height: "50vh",
     display: "flex",
     flexDirection: "column",
-    backgroundColor: "#1E1E1E",
+    backgroundColor: "#2c3e50",
   },
   buttonContainer: {},
   h2Style: {
